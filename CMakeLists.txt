@@ -14,5 +14,6 @@ add_subdirectory("core/qstruct_serialize")
 
 
 add_subdirectory("application/todoApp")
+add_subdirectory("application/todoApp_win32")
 
 
