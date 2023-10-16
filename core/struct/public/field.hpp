@@ -4,7 +4,7 @@
 #include "weakPtr.hpp"
 #include "fieldType.hpp"
 
-class QObj;
+class QIns;
 class Field
 {
 public:
@@ -14,7 +14,7 @@ public:
 
 
     template<typename T>
-    T* getValuePtr(QObj* objPtr) const
+    T* getValuePtr(QIns* objPtr) const
     {
         auto* bytePtr = reinterpret_cast<uint8_t*>(objPtr);
         auto memberPtr = reinterpret_cast<T*>(bytePtr + offset);

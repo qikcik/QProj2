@@ -1,6 +1,6 @@
 #pragma once
 #include "object.hpp"
-#include "qClass.hpp"
+#include "qInsDef.hpp"
 #include "parser.hpp"
 #include "dynamicInfo.hpp"
 #include <concepts>
@@ -10,8 +10,8 @@ class Converter
 public:
     explicit Converter(const DynamicInfo& in_dynamicInfo = {}) : dynamicInfo(in_dynamicInfo) {};
 
-    json::Object qstructToJson(QObj* in_addr, WeakPtr<QClass> in_class);
-    void jsonToQStruct(const json::Object& json, WeakPtr<QClass> in_class, QObj* in_addr);
+    json::Object qstructToJson(QIns* in_addr, WeakPtr<QInsDef> in_class);
+    void jsonToQStruct(const json::Object& json, WeakPtr<QInsDef> in_class, QIns* in_addr);
 
 
 protected:

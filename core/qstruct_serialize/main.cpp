@@ -1,19 +1,19 @@
 
 #include "dynamicArray.tpp"
-#include "qClass.hpp"
+#include "qInsDef.hpp"
 #include "fieldType.hpp"
 #include "converter.hpp"
 #include "structMacros.hpp"
 #include "parser.hpp"
 
-GEN_QOBJ(FooArr)
+GEN_QSTRUCT(FooArr)
 {
-GEN_QOBJ_BODY()
+GEN_QSTRUCT_BODY()
 public:
     DynamicArray<float> arr {};
 };
 
-GEN_QSTRUCT_TYPE(FooArr,{
+GEN_QSTRUCT_STATIC_DEF(FooArr, {
     GEN_QSTRUCT_FIELD_ENTRY(FooArr,arr)
 })
 

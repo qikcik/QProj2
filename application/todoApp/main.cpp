@@ -7,6 +7,7 @@
 #include <iostream>
 #include "data/list.hpp"
 #include "converter.hpp"
+#include "fieldType/fields.hpp"
 #include <fstream>
 #include <sstream>
 
@@ -37,8 +38,8 @@ int main()
 
             if (GuiButton((Rectangle){ 10, 10, 70, 30 },  "Clear"))
             {
-                List::staticStruct.getPtr()->destructInstance(&list); //TODO: Fix assigment operator generation
-                List::staticStruct.getPtr()->constructInstance(&list);
+                List::staticStructDef.getPtr()->destructInstance(&list); //TODO: Fix assigment operator generation
+                List::staticStructDef.getPtr()->constructInstance(&list);
             }
 
             if (GuiTextBox((Rectangle){ 90, 10, 140, 30 }, fileName, 64, fileNameEditMode)) fileNameEditMode = !fileNameEditMode;
@@ -48,13 +49,13 @@ int main()
                 std::ifstream file(std::string(fileName) + ".json");
                 std::stringstream stream {};
                 stream << file.rdbuf();
-                Converter().jsonToQStruct(std::get<json::Object>(json::Parser().parse(stream.str())), List::staticStruct, &list);
+                Converter().jsonToQStruct(std::get<json::Object>(json::Parser().parse(stream.str())), List::staticStructDef, &list);
             }
             if (GuiButton((Rectangle){ 320, 10, 70, 30 },  "Save"))
             {
                 std::ofstream file {};
                 file.open ( std::string(fileName) + ".json");
-                auto json = Converter().qstructToJson(&list, List::staticStruct);
+                auto json = Converter().qstructToJson(&list, List::staticStructDef);
                 std::string source = json.stringify();
                 file << source;
             }

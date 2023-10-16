@@ -1,11 +1,11 @@
-#include "qClass.hpp"
+#include "qInsDef.hpp"
 
-const DynamicArray<Field>& QClass::getFields() const
+const DynamicArray<Field>& QInsDef::getFields() const
 {
     return fields;
 }
 
-Field* QClass::getField(const std::string& in_name) const
+Field* QInsDef::getField(const std::string& in_name) const
 {
     for(auto& fieldIt : fields)
         if(fieldIt.name == in_name) return &fieldIt;

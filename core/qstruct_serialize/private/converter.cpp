@@ -1,15 +1,16 @@
 #include "converter.hpp"
 #include "dynamicArray.tpp"
+#include "fieldType/fields.hpp"
 
 
-json::Object Converter::qstructToJson(QObj* in_addr, WeakPtr<QClass> in_class)
+json::Object Converter::qstructToJson(QIns* in_addr, WeakPtr<QInsDef> in_class)
 {
     QStructField field(in_class);
     return std::get<json::Object>(field.toJson(in_addr));
 }
 
 
-void Converter::jsonToQStruct(const json::Object& json, WeakPtr<QClass> in_class, QObj* in_addr)
+void Converter::jsonToQStruct(const json::Object& json, WeakPtr<QInsDef> in_class, QIns* in_addr)
 {
     in_class.getPtr()->destructInstance(in_addr);
     QStructField field(in_class);
