@@ -1,3 +1,3 @@
 #include "fieldType/stdStringField.hpp"
 
-template<> OwnerPtr<FieldType> getFieldType<std::string>() { return OwnerPtr<StdStringField>::createInstance(); };
+template<> OwnerPtr<FieldType> getFieldType<std::string>() { return OwnerPtr<StdStringField>::CreateWithInstance(); };

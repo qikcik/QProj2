@@ -22,10 +22,10 @@ public:
 };
 
 GEN_QSTRUCT_STATIC_DEF(Foo, {
-    GEN_QSTRUCT_FIELD_ENTRY(Foo,x),
-    GEN_QSTRUCT_FIELD_ENTRY(Foo,y),
-    GEN_QSTRUCT_FIELD_ENTRY(Foo,z),
-    GEN_QSTRUCT_FIELD_ENTRY(Foo,text),
+    GEN_INS_DEF_FIELD_ENTRY(Foo, x),
+    GEN_INS_DEF_FIELD_ENTRY(Foo, y),
+    GEN_INS_DEF_FIELD_ENTRY(Foo, z),
+    GEN_INS_DEF_FIELD_ENTRY(Foo, text),
 })
 
 GEN_QSTRUCT(Bar)
@@ -39,9 +39,9 @@ public:
 };
 
 GEN_QSTRUCT_STATIC_DEF(Bar, {
-    GEN_QSTRUCT_FIELD_ENTRY(Bar,text),
-    GEN_QSTRUCT_FIELD_ENTRY(Bar,foo),
-    GEN_QSTRUCT_FIELD_ENTRY(Bar,arr),
+    GEN_INS_DEF_FIELD_ENTRY(Bar, text),
+    GEN_INS_DEF_FIELD_ENTRY(Bar, foo),
+    GEN_INS_DEF_FIELD_ENTRY(Bar, arr),
 })
 
 
@@ -58,10 +58,10 @@ TEST(ConverterTest, Test)
     bar.arr.push_back({1,2,3,"lorem ipsum"});
     bar.arr.push_back({4,5,6,"ipsum lorem"});
 
-    auto json =  Converter().qstructToJson(&bar, bar.staticStructDef);
+    auto json =  Converter().qstructToJson(&bar, Bar::staticDef.getWeak());
     auto source = json.stringify();
     Bar bar2{};
-    Converter().jsonToQStruct(std::get<json::Object>(json::Parser().parse(source)), Bar::staticStructDef, &bar2);
+    Converter().jsonToQStruct(std::get<json::Object>(json::Parser().parse(source)), Bar::staticDef.getWeak(), &bar2);
     EXPECT_EQ(bar2.foo.x,1);
     EXPECT_EQ(bar2.foo.y,2);
     EXPECT_EQ(bar2.foo.z,3);

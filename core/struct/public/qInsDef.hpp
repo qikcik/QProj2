@@ -37,8 +37,6 @@ public:
     const std::function<void(QIns* in_addr)> constructInstance;
     const std::function<void(QIns* in_addr)> destructInstance;
 
-
-
 protected:
     DynamicArray<Field> fields;
 };

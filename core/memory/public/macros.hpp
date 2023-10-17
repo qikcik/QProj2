@@ -1,7 +1,7 @@
 #pragma once
 #include "concepts"
 
-#define GEN_COPY_ASSIGMENT_OPERATOR(TType) TType& operator=(const TType& other) const \
+#define GEN_COPY_ASSIGMENT_OPERATOR(TType) TType& operator=(const TType& other) \
 { \
     if(this == &other) \
         return *this; \
@@ -11,7 +11,7 @@
 }
 
 #define GEN_MOVE_ASSIGMENT_OPERATOR(TType) \
-TType& operator=(TType&& other) const noexcept \
+TType& operator=(TType&& other) noexcept \
 { \
     if(this == &other) \
         return *this; \

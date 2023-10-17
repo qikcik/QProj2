@@ -7,15 +7,35 @@ template<typename TType>
 class OwnerPtr
 {
 public:
+    using element_type = TType;
+
+
     template <typename... TArgs>
-    static OwnerPtr<TType> createInstance(TArgs&&... args)  {
-        OwnerPtr<TType> result {};
+    static OwnerPtr<TType> CreateWithInstanceWithId(const std::string& id,TArgs&&... args)  {
+        OwnerPtr<TType> result{id};
         result.block->allocateInstance(sizeof(TType));
         new (result.block->getPtr()) TType(std::forward<TArgs>(args)...);
         return std::move(result);
     };
 
-    OwnerPtr() : block(PtrBlock::createBlock()) {}
+    template <typename... TArgs>
+    static OwnerPtr<TType> CreateWithInstance(TArgs&&... args)  {
+        OwnerPtr<TType> result{};
+        result.block->allocateInstance(sizeof(TType));
+        new (result.block->getPtr()) TType(std::forward<TArgs>(args)...);
+        return std::move(result);
+    };
+
+    template <typename... TArgs>
+    void createInstance(TArgs&&... args)  {
+        OwnerPtr<TType> result {};
+        new (result.block->getPtr()) TType(std::forward<TArgs>(args)...);
+        return std::move(result);
+    };
+
+    //empty unique id - means auto-generated
+    explicit OwnerPtr(const std::string& unique_id = "") : block(PtrBlock::createBlock(unique_id)) {}
+
     ~OwnerPtr() {
         if(block && block->getPtr()) {
             reinterpret_cast<TType*>(block->getPtr())->~TType();
@@ -47,12 +67,15 @@ public:
 
     template<typename TOther>
     requires std::derived_from<TOther,TType>
-    OwnerPtr<TOther> cast() {
+    OwnerPtr<TOther> moveCast() {
         return OwnerPtr<TOther>(std::move(*this));
     }
 
-
     operator WeakPtr<TType>() const {
+        return WeakPtr<TType>(block);
+    }
+
+    WeakPtr<TType> getWeak() const {
         return WeakPtr<TType>(block);
     }
 
@@ -66,9 +89,14 @@ public:
         return reinterpret_cast<TType*>(block->getPtr());
     };
 
+    std::string getId() const {
+        return block->getId();
+    }
+
 protected:
     mutable PtrBlock* block;
 
     template<typename TOther>
     friend class OwnerPtr;
+    friend class OwnerObjPtrField;
 };

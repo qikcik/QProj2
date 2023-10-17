@@ -38,8 +38,8 @@ int main()
 
             if (GuiButton((Rectangle){ 10, 10, 70, 30 },  "Clear"))
             {
-                List::staticStructDef.getPtr()->destructInstance(&list); //TODO: Fix assigment operator generation
-                List::staticStructDef.getPtr()->constructInstance(&list);
+                List::staticDef.getPtr()->destructInstance(&list); //TODO: Fix assigment operator generation
+                List::staticDef.getPtr()->constructInstance(&list);
             }
 
             if (GuiTextBox((Rectangle){ 90, 10, 140, 30 }, fileName, 64, fileNameEditMode)) fileNameEditMode = !fileNameEditMode;
@@ -49,13 +49,13 @@ int main()
                 std::ifstream file(std::string(fileName) + ".json");
                 std::stringstream stream {};
                 stream << file.rdbuf();
-                Converter().jsonToQStruct(std::get<json::Object>(json::Parser().parse(stream.str())), List::staticStructDef, &list);
+                Converter().jsonToQStruct(std::get<json::Object>(json::Parser().parse(stream.str())), List::staticDef, &list);
             }
             if (GuiButton((Rectangle){ 320, 10, 70, 30 },  "Save"))
             {
                 std::ofstream file {};
                 file.open ( std::string(fileName) + ".json");
-                auto json = Converter().qstructToJson(&list, List::staticStructDef);
+                auto json = Converter().qstructToJson(&list, List::staticDef);
                 std::string source = json.stringify();
                 file << source;
             }

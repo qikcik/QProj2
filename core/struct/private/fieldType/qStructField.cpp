@@ -11,7 +11,6 @@ json::innerType QStructField::toJson(void* in_addr) const
 {
     json::Object result {};
 
-
     for(const auto& fieldIt : type.getPtr()->getFields())
     {
         auto field_addr = fieldIt.getValuePtr<void>((QIns*)in_addr);

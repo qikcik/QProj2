@@ -11,7 +11,7 @@ public:
     explicit Converter(const DynamicInfo& in_dynamicInfo = {}) : dynamicInfo(in_dynamicInfo) {};
 
     json::Object qstructToJson(QIns* in_addr, WeakPtr<QInsDef> in_class);
-    void jsonToQStruct(const json::Object& json, WeakPtr<QInsDef> in_class, QIns* in_addr);
+    void jsonToQStruct(const json::Object& json,WeakPtr<QInsDef> in_class, QIns* in_addr);
 
 
 protected:

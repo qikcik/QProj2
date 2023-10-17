@@ -16,7 +16,7 @@ public:
 };
 
 GEN_QSTRUCT_STATIC_DEF(Foo2, {
-    GEN_QSTRUCT_FIELD_ENTRY(Foo2,nums),
+    GEN_INS_DEF_FIELD_ENTRY(Foo2, nums),
 })
 
 
@@ -29,7 +29,7 @@ public:
 };
 
 GEN_QSTRUCT_STATIC_DEF(Bar2, {
-    GEN_QSTRUCT_FIELD_ENTRY(Bar2,arr),
+    GEN_INS_DEF_FIELD_ENTRY(Bar2, arr),
 })
 
 
@@ -44,10 +44,10 @@ TEST(ConverterTest2, Test)
         bar.arr[0][0].nums.push_back(i*2);
     }
 
-    auto json =  Converter().qstructToJson(&bar, bar.staticStructDef);
+    auto json =  Converter().qstructToJson(&bar, bar.staticDef.getWeak());
     auto source = json.stringify();
     Bar2 bar2{};
-    Converter().jsonToQStruct(std::get<json::Object>(json::Parser().parse(source)), Bar2::staticStructDef, &bar2);
+    Converter().jsonToQStruct(std::get<json::Object>(json::Parser().parse(source)), Bar2::staticDef.getWeak(), &bar2);
 
 
     for(int i = 0 ; i != 18 ; i++)

@@ -16,7 +16,7 @@ public:
 };
 
 GEN_QSTRUCT_STATIC_DEF(FooArr, {
-    GEN_QSTRUCT_FIELD_ENTRY(FooArr,arr)
+    GEN_INS_DEF_FIELD_ENTRY(FooArr, arr)
 })
 
 TEST(ConverterTest, ArrayCheck)
@@ -26,11 +26,11 @@ TEST(ConverterTest, ArrayCheck)
     obj.arr.push_back(3);
     obj.arr.push_back(6);
 
-    auto json = Converter().qstructToJson(&obj, obj.staticStructDef);
+    auto json = Converter().qstructToJson(&obj, obj.staticDef);
     std::string source = json.stringify();
 
     FooArr a{};
-    Converter().jsonToQStruct(std::get<json::Object>(json::Parser().parse(source)), FooArr::staticStructDef, &a);
+    Converter().jsonToQStruct(std::get<json::Object>(json::Parser().parse(source)), FooArr::staticDef, &a);
 
 
     EXPECT_EQ(a.arr[0],2);

@@ -17,6 +17,6 @@ public:
 };
 
 GEN_QSTRUCT_STATIC_DEF(List, {
-    GEN_QSTRUCT_FIELD_ENTRY(List,title),
-    GEN_QSTRUCT_FIELD_ENTRY(List,entries)
+    GEN_INS_DEF_FIELD_ENTRY(List, title),
+    GEN_INS_DEF_FIELD_ENTRY(List, entries)
 })

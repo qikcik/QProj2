@@ -52,6 +52,16 @@ macro(defineModule MODULE)
     #Discover Test
     include(GoogleTest)
     gtest_discover_tests(${CMAKE_PROJECT_NAME}_${MODULE}_test)
+
+    target_compile_definitions(
+            ${CMAKE_PROJECT_NAME}_${MODULE}
+            PRIVATE
+            TARGET_NAME="${CMAKE_PROJECT_NAME}_${MODULE}")
+
+    target_compile_definitions(
+            ${CMAKE_PROJECT_NAME}_${MODULE}_test
+            PRIVATE
+            TARGET_NAME="${CMAKE_PROJECT_NAME}_${MODULE}_test")
 endmacro()
 
 macro(addDependency MODULE DEPENDENCY)
@@ -79,6 +89,11 @@ macro(defineExecutableForModule MODULE)
             ${CMAKE_PROJECT_NAME}_${MODULE}_exe PUBLIC
             ${CMAKE_PROJECT_NAME}_${MODULE}
     )
+
+    target_compile_definitions(
+            ${CMAKE_PROJECT_NAME}_${MODULE}_exe
+            PRIVATE
+            TARGET_NAME="${CMAKE_PROJECT_NAME}_${MODULE}_exe")
 
     #DLL
     if (WIN32 AND BUILD_SHARED_LIBS)

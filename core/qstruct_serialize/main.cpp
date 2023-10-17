@@ -14,7 +14,7 @@ public:
 };
 
 GEN_QSTRUCT_STATIC_DEF(FooArr, {
-    GEN_QSTRUCT_FIELD_ENTRY(FooArr,arr)
+    GEN_INS_DEF_FIELD_ENTRY(FooArr, arr)
 })
 
 int main() {

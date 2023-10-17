@@ -14,6 +14,7 @@ public:
         auto& value = *reinterpret_cast<std::string*>(in_addr);
         return json::Value(value);
     }
+
     void fromJson(void* in_addr,const json::innerType& in_json) const override {
         auto asString = std::get<json::Value>(in_json).get<std::string>();
         new (in_addr) std::string(*asString);
