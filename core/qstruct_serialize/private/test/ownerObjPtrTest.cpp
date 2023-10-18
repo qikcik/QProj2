@@ -28,10 +28,12 @@ GEN_QOBJ(Foo3)
     GEN_QOBJ_DEF_CONSTRUCTOR_AND_DESTRUCTOR(Foo3)
 public:
     OwnerPtr<InnerObj> ptr {};
+    WeakPtr<InnerObj> weakPtr;
 };
 
 GEN_QOBJ_STATIC_DEF(Foo3, {
     GEN_INS_DEF_FIELD_ENTRY(Foo3, ptr),
+    GEN_INS_DEF_FIELD_ENTRY(Foo3, weakPtr),
 })
 
 TEST(OwnerObjTest, Test)
@@ -39,6 +41,7 @@ TEST(OwnerObjTest, Test)
     Foo3 obj{Foo3::staticDef};
     obj.ptr = OwnerPtr<InnerObj>::CreateWithInstance(InnerObj::staticDef);
     obj.ptr.getPtr()->name = "Test";
+    obj.weakPtr = obj.ptr;
     auto test1 = obj.ptr.getPtr();
 
     EXPECT_EQ(obj.ptr.getPtr()->name,"Test");
@@ -53,4 +56,5 @@ TEST(OwnerObjTest, Test)
 
     auto test2 = res.ptr.getPtr();
     EXPECT_EQ(res.ptr.getPtr()->name,"Test");
+    EXPECT_EQ(res.weakPtr.getPtr()->name,"Test");
 }

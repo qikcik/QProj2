@@ -7,7 +7,7 @@
 #include "fieldType/stdStringField.hpp"
 
 #include "fieldType/ownerObjPtr.hpp"
-
+#include "fieldType/weakObjPtr.hpp"
 
 template<TDynamicArrayConcept T>
 OwnerPtr<FieldType> getFieldType() {
@@ -23,4 +23,9 @@ OwnerPtr<FieldType> getFieldType() {
 template<TOwnerPtr T>
 OwnerPtr<FieldType> getFieldType() {
     return OwnerPtr<OwnerObjPtrField>::CreateWithInstance( T::element_type::staticDef );
+}
+
+template<TWeakPtr T>
+OwnerPtr<FieldType> getFieldType() {
+    return OwnerPtr<WeakObjPtrField>::CreateWithInstance( T::element_type::staticDef );
 }

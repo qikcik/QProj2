@@ -6,6 +6,8 @@ template<typename TType>
 class WeakPtr
 {
 public:
+    using element_type = TType;
+
     WeakPtr() = default;
     explicit WeakPtr(const std::string& in_soft_Id) : soft_id(in_soft_Id) {}
     ~WeakPtr() {
@@ -47,8 +49,11 @@ public:
 
     bool tryResolveSoftPtr() {
         if(!block) {
-            block = PtrBlock::resolveSoftPtr(soft_id);
-            return block != nullptr;
+            auto resolved = PtrBlock::resolveSoftPtr(soft_id);
+            if(resolved) {
+                block = PtrBlock::addRef(resolved);
+                return true;
+            }
         }
         return false;
 

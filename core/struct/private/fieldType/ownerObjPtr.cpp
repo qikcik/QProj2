@@ -2,6 +2,7 @@
 #include "qObjDef.hpp"
 #include "fieldType/qStructField.hpp"
 
+//TODO: add checking!
 json::innerType OwnerObjPtrField::toJson(void* in_addr) const
 {
     json::Object result {};
@@ -12,9 +13,9 @@ json::innerType OwnerObjPtrField::toJson(void* in_addr) const
 
     if(not asQObj)
     {
-        result.set("objDef",json::Value(""));
-        result.set("objId",json::Value(""));
-        result.set("objIns",json::Value(""));
+        result.set("objDef",json::Value("nullptr"));
+        result.set("objId",json::Value("nullptr"));
+        result.set("objIns",json::Value("nullptr"));
         return result;
     }
 
@@ -31,6 +32,7 @@ void OwnerObjPtrField::fromJson(void* in_addr, const json::innerType& in_json) c
 {
     auto json = std::get<json::Object>(in_json);
 
+
     auto& objDefStr = *json.get<json::Value>("objDef")->get<std::string>();
     auto& objIdStr = *json.get<json::Value>("objId")->get<std::string>();
     WeakPtr<QObjDef> objDef(objDefStr);
@@ -45,6 +47,4 @@ void OwnerObjPtrField::fromJson(void* in_addr, const json::innerType& in_json) c
 
     QStructField field(objDef);
     field.fromJson(asOwnerPtr->getPtr(), *json.get<json::Object>("objIns"));
-
-
 }
