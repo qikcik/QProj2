@@ -93,7 +93,6 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
     MSG msg;
     while( GetMessage( &msg, nullptr, 0, 0 ) )
     {
-        txtWeak.getPtr()->setText(txtWeak.getPtr()->getText());
         TranslateMessage( &msg );
         DispatchMessage( &msg );
     }

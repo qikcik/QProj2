@@ -1,36 +1,59 @@
 #include "data/textbox.hpp"
 #include "data/window.hpp"
+#include "fieldType/fields.hpp"
 
 GEN_QOBJ_STATIC_DEF(Textbox,Widget,{
     GEN_INS_DEF_FIELD_ENTRY(Textbox, text),
 })
 
+Textbox::Textbox(const WeakPtr<QObjDef>& in_derivedObjDef) : Widget(in_derivedObjDef)
+{
+    text.add( [&](auto& val) {
+        if(hwnd && !blocking)
+            SetWindowText(hwnd, val.c_str());
+    });
+}
+
 void Textbox::registerInWindow(Window* in_window)
 {
+    auto self = selfPtr.cast<Textbox>();
+//    text.add( [self](auto& val) {
+//        //if(self.getPtr()->hwnd)
+//        //SetWindowText(self.getPtr()->hwnd, val.c_str());
+//    });
+
     hmenu = (HMENU)in_window->getNewHMENUIdx();
-    hwnd = CreateWindowEx( 0, "EDIT", text.c_str(), WS_BORDER | WS_CHILD | WS_VISIBLE,
+    hwnd = CreateWindowEx( 0, "EDIT", text.value.c_str(), WS_BORDER | WS_CHILD | WS_VISIBLE,
                            rect.x, rect.y, rect.w, rect.h,
                            in_window->getHwnd(), hmenu, in_window->getHInstance(), nullptr );
 }
 
+
 void Textbox::setText(const std::string& in_string)
 {
-    text = in_string;
-    if(hwnd)
-        SetWindowText(hwnd, in_string.c_str());
+    text.value = in_string;
+    text.notify();
 }
-
 
 void Textbox::receivedCommand()
 {
     static CHAR buf[1024];
     GetWindowText(hwnd, buf, 1024);
-    text = buf;
-    if(onChange)
-        onChange(selfPtr.cast<Textbox>());
+    std::string str = buf;
+    if(str != text.value)
+    {
+        text.value = str;
+
+        blocking = true;
+        text.notify();
+        blocking = false;
+
+        if(onChange)
+            onChange(selfPtr.cast<Textbox>());
+    }
 }
 
 const std::string& Textbox::getText()
 {
-    return text;
+    return text.value;
 }

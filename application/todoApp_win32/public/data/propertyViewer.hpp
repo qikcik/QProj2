@@ -16,4 +16,6 @@ public:
 protected:
     WeakPtr<QObj> obj;
     WeakPtr<Window> window;
+
+    bool tmpBlocking {false};
 };

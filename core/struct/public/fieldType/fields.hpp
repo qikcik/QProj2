@@ -8,6 +8,7 @@
 
 #include "fieldType/ownerObjPtr.hpp"
 #include "fieldType/weakObjPtr.hpp"
+#include "fieldType/observableField.hpp"
 
 template<TDynamicArrayConcept T>
 OwnerPtr<FieldType> getFieldType() {
@@ -28,4 +29,10 @@ OwnerPtr<FieldType> getFieldType() {
 template<TWeakPtr T>
 OwnerPtr<FieldType> getFieldType() {
     return OwnerPtr<WeakObjPtrField>::CreateWithInstance( T::element_type::staticDef );
+}
+
+template<TObservableConcept T>
+OwnerPtr<FieldType> getFieldType() {
+    using  element_type = typename T::element_type;
+    return OwnerPtr<ObservableField>::CreateWithInstance( std::move(getFieldType<element_type>()) );
 }
