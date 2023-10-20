@@ -9,29 +9,29 @@
 #include "fieldType/fields.hpp"
 #include "qObjDef.hpp"
 
-GEN_QOBJ(InnerObj)
+GEN_QOBJ(InnerObj,QObj)
 {
-GEN_QOBJ_BODY(InnerObj)
-GEN_QOBJ_DEF_CONSTRUCTOR_AND_DESTRUCTOR(InnerObj)
+GEN_QOBJ_BODY(InnerObj,QObj)
+GEN_QOBJ_DEF_CONSTRUCTOR_AND_DESTRUCTOR(InnerObj,QObj)
 public:
     std::string name {};
 };
 
-GEN_QOBJ_STATIC_DEF(InnerObj, {
+GEN_QOBJ_STATIC_DEF(InnerObj,QObj, {
     GEN_INS_DEF_FIELD_ENTRY(InnerObj, name),
 })
 
 
-GEN_QOBJ(Foo3)
+GEN_QOBJ(Foo3,QObj)
 {
-    GEN_QOBJ_BODY(Foo3)
-    GEN_QOBJ_DEF_CONSTRUCTOR_AND_DESTRUCTOR(Foo3)
+    GEN_QOBJ_BODY(Foo3,QObj)
+    GEN_QOBJ_DEF_CONSTRUCTOR_AND_DESTRUCTOR(Foo3,QObj)
 public:
     OwnerPtr<InnerObj> ptr {};
     WeakPtr<InnerObj> weakPtr;
 };
 
-GEN_QOBJ_STATIC_DEF(Foo3, {
+GEN_QOBJ_STATIC_DEF(Foo3,QObj, {
     GEN_INS_DEF_FIELD_ENTRY(Foo3, ptr),
     GEN_INS_DEF_FIELD_ENTRY(Foo3, weakPtr),
 })

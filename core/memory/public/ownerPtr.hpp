@@ -2,6 +2,7 @@
 #include "macros.hpp"
 #include "ptrBlock.hpp"
 #include "weakPtr.hpp"
+#include "weakFromThis.hpp"
 
 template<typename TType>
 class OwnerPtr
@@ -15,6 +16,11 @@ public:
         OwnerPtr<TType> result{id};
         result.block->allocateInstance(sizeof(TType));
         new (result.block->getPtr()) TType(std::forward<TArgs>(args)...);
+
+        auto weakFromThis = dynamic_cast<WeakFromThis*>((TType*)result.block->getPtr());
+        if(weakFromThis)
+            weakFromThis->setSelfWeak( WeakPtr<TType>(result.block).template cast<void>());
+
         return std::move(result);
     };
 
@@ -23,14 +29,22 @@ public:
         OwnerPtr<TType> result{};
         result.block->allocateInstance(sizeof(TType));
         new (result.block->getPtr()) TType(std::forward<TArgs>(args)...);
+
+        auto weakFromThis = dynamic_cast<WeakFromThis*>((TType*)result.block->getPtr());
+        if(weakFromThis)
+            weakFromThis->setSelfWeak( WeakPtr<TType>(result.block).template cast<void>());
+
         return std::move(result);
     };
 
     template <typename... TArgs>
     void createInstance(TArgs&&... args)  {
-        OwnerPtr<TType> result {};
-        new (result.block->getPtr()) TType(std::forward<TArgs>(args)...);
-        return std::move(result);
+        block->allocateInstance(sizeof(TType));
+        new (block->getPtr()) TType(std::forward<TArgs>(args)...);
+
+        auto weakFromThis = dynamic_cast<WeakFromThis*>((TType*)block->getPtr());
+        if(weakFromThis)
+            weakFromThis->setSelfWeak( WeakPtr<TType>(block).template cast<void>());
     };
 
     //empty unique id - means auto-generated

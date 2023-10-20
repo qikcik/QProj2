@@ -40,11 +40,9 @@ void OwnerObjPtrField::fromJson(void* in_addr, const json::innerType& in_json) c
     DEBUG_ENSURE(objDef.getPtr())
 
     auto asOwnerPtr = reinterpret_cast<OwnerPtr<QObj>*>(in_addr);
-    asOwnerPtr->~OwnerPtr<QObj>();
     new (asOwnerPtr) OwnerPtr<QObj>(objIdStr);
     asOwnerPtr->block->allocateInstance(objDef.getPtr()->memorySize);
-    objDef.getPtr()->constructInstance(asOwnerPtr->getPtr());
 
-    QStructField field(objDef);
+    QStructField field(objDef);;
     field.fromJson(asOwnerPtr->getPtr(), *json.get<json::Object>("objIns"));
 }

@@ -28,8 +28,8 @@ public:
 
     virtual ~QInsDef() = default;
 
-    const DynamicArray<Field>& getFields() const;
-    Field* getField(const std::string& in_name) const;
+    virtual DynamicArray<Field*> getAllFields() const;
+    virtual Field* getField(const std::string& in_name) const;
 
     const std::string name;
     const size_t memorySize;

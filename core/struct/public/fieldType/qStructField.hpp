@@ -16,8 +16,5 @@ public:
 };
 
 
-template<typename T>
-OwnerPtr<FieldType> getFieldType();
-
 template<std::derived_from<class QStruct> T>
 OwnerPtr<FieldType> getFieldType();

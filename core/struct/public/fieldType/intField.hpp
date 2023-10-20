@@ -16,7 +16,7 @@ public:
     }
 
     void fromJson(void* in_addr,const json::innerType& in_json) const override {
-        auto asInt = std::get<json::Value>(in_json).get<float>();
-        *static_cast<int*>(in_addr) = *(int*)asInt;
+        int asInt = (int)*std::get<json::Value>(in_json).get<float>();
+        *static_cast<int*>(in_addr) = asInt;
     }
 };

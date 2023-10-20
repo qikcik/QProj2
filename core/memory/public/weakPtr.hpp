@@ -82,6 +82,12 @@ public:
         if(block) soft_id = block->getId();
     };
 
+    template<typename TOther>
+    WeakPtr<TOther> cast() {
+        return  WeakPtr<TOther>(block);
+    };
+
+
 protected:
     PtrBlock* block {nullptr};
     std::string soft_id {};

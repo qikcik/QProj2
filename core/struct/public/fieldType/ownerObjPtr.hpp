@@ -12,7 +12,7 @@ public:
     const WeakPtr<QObjDef> type;
 
     size_t getMemorySize() const override {
-        return sizeof(DynamicArray<uint8_t>);
+        return sizeof(OwnerPtr<void>);
     };
 
     json::innerType toJson(void* in_addr) const  override;
