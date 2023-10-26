@@ -1,5 +1,6 @@
 #include "data/button.hpp"
 #include "data/window.hpp"
+#include <CommCtrl.h>
 
 GEN_QOBJ_STATIC_DEF(Button,Widget,{
     GEN_INS_DEF_FIELD_ENTRY(Button, text),
@@ -8,8 +9,8 @@ GEN_QOBJ_STATIC_DEF(Button,Widget,{
 void Button::registerInWindow(Window* in_window)
 {
     hmenu = (HMENU)in_window->getNewHMENUIdx();
-    hwnd = CreateWindowEx( 0, "BUTTON", text.c_str(), WS_CHILD | WS_VISIBLE,
-                    rect.x, rect.y, rect.w, rect.h,
+    hwnd = CreateWindowEx( 0, WC_BUTTON, text.c_str(), WS_CHILD | WS_VISIBLE,
+                    rect.value.x, rect.value.y, rect.value.w, rect.value.h,
                     in_window->getHwnd(),hmenu, in_window->getHInstance(), nullptr );
 }
 

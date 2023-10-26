@@ -21,4 +21,4 @@ TType& operator=(TType&& other) noexcept \
 } \
 
 
-#define DEBUG_ENSURE(value) if(!value) throw std::runtime_error{ std::to_string(__LINE__) };
+#define DEBUG_ENSURE(value) if(!value) throw std::runtime_error{ (std::string(__FILE__ ) + " " + std::to_string(__LINE__)) };

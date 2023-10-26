@@ -8,9 +8,9 @@ GEN_QOBJ_STATIC_DEF(Textbox,Widget,{
 
 Textbox::Textbox(const WeakPtr<QObjDef>& in_derivedObjDef) : Widget(in_derivedObjDef)
 {
-    text.add( [&](auto& val) {
+    text.add( [&]() {
         if(hwnd && !blocking)
-            SetWindowText(hwnd, val.c_str());
+            SetWindowText(hwnd, text.value.c_str());
     });
 }
 
@@ -24,7 +24,7 @@ void Textbox::registerInWindow(Window* in_window)
 
     hmenu = (HMENU)in_window->getNewHMENUIdx();
     hwnd = CreateWindowEx( 0, "EDIT", text.value.c_str(), WS_BORDER | WS_CHILD | WS_VISIBLE,
-                           rect.x, rect.y, rect.w, rect.h,
+                           rect.value.x, rect.value.y, rect.value.w, rect.value.h,
                            in_window->getHwnd(), hmenu, in_window->getHInstance(), nullptr );
 }
 

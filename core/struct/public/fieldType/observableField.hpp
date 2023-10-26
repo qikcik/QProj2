@@ -7,10 +7,13 @@
 class ObservableField : public FieldType
 {
 public:
-    explicit ObservableField(const OwnerPtr<FieldType>&& in_type) : valueType(std::move(in_type)) {}
+    explicit ObservableField(const OwnerPtr<FieldType>&& in_type,const size_t in_listenersOffset)
+    : valueType(std::move(in_type)),listenersOffset(in_listenersOffset) {}
+
     ~ObservableField() override = default;
 
     const OwnerPtr<FieldType> valueType;
+    const size_t listenersOffset;
 
     size_t getMemorySize() const override {
         return sizeof(std::function<void(void*)>)+valueType.getPtr()->getMemorySize();

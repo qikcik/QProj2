@@ -3,15 +3,18 @@
 #include "structMacros.hpp"
 #include "rectangle.hpp"
 #include <windows.h>
+#include "observable.hpp"
 
 class Window;
 
 GEN_QOBJ(Widget,QObj)
 {
     GEN_QOBJ_BODY(Widget,QObj)
-    GEN_QOBJ_DEF_CONSTRUCTOR_AND_DESTRUCTOR(Widget,QObj)
 public:
-    ScreenRectangle rect {};
+    explicit Widget(const WeakPtr<QObjDef>& in_derivedObjDef);
+    ~Widget() override =default;
+
+    Observable<ScreenRectangle> rect {};
     HMENU hmenu {};
     HWND hwnd {};
 

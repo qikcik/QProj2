@@ -12,10 +12,10 @@ GEN_QOBJ(PropertyViewer,QObj)
 GEN_QOBJ_BODY(PropertyViewer,QObj)
 GEN_QOBJ_DEF_CONSTRUCTOR_AND_DESTRUCTOR(PropertyViewer,QObj)
 public:
-    void construct(WeakPtr<Window> in_window, WeakPtr<QObj> in_obj);
+    void construct(WeakPtr<Window>& in_window, WeakPtr<QObj> in_obj);
+    bool tmpBlocking {false};
 protected:
     WeakPtr<QObj> obj;
-    WeakPtr<Window> window;
 
-    bool tmpBlocking {false};
+    WeakPtr<Window> window;
 };

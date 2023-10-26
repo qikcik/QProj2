@@ -3,9 +3,11 @@
 #include "data/button.hpp"
 #include "data/label.hpp"
 #include "data/textbox.hpp"
+#include "data/groupbox.hpp"
 #include <fstream>
 #include "converter.hpp"
 #include "fieldType/fields.hpp"
+#include <iostream>
 
 GEN_QSTRUCT(App)
 {
@@ -17,6 +19,7 @@ public:
 GEN_QSTRUCT_STATIC_DEF(App,{
     GEN_INS_DEF_FIELD_ENTRY(App, windows),
 })
+
 
 OwnerPtr<Window> CreateWindoww()
 {
@@ -30,7 +33,7 @@ OwnerPtr<Window> CreateWindoww()
     auto lblWeak = lbl.getWeak();
 
 
-    button.getPtr()->rect = ScreenRectangle{{},0,0,100,100};
+    button.getPtr()->rect.value = ScreenRectangle{{},0,0,100,100};
     button.getPtr()->setText("Click!");
     button.getPtr()->onClick = [lblWeak,txtWeak](auto button) mutable {
         auto val = std::stoi(txtWeak.getPtr()->getText());
@@ -38,10 +41,10 @@ OwnerPtr<Window> CreateWindoww()
     };
 
     lbl.getPtr()->setText("Dupa Dupa 123");
-    lbl.getPtr()->rect = ScreenRectangle{{},200,400,100,100};
+    lbl.getPtr()->rect.value = ScreenRectangle{{},200,400,100,100};
 
     txt.getPtr()->setText("...");
-    txt.getPtr()->rect = ScreenRectangle{{},100,100,100,100};
+    txt.getPtr()->rect.value = ScreenRectangle{{},100,100,100,100};
 
     ptr->addWidget( std::move(button) );
     ptr->addWidget( std::move(lbl) );
@@ -55,6 +58,11 @@ OwnerPtr<Window> CreateWindoww()
 
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
 {
+    Button::staticDef.getPtr();
+    Label::staticDef.getPtr();
+    Textbox::staticDef.getPtr();
+    Groupbox::staticDef.getPtr();
+
     App app;
 //    {
 //        std::ifstream file("layout.json");
@@ -65,11 +73,20 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 
     OwnerPtr<Window> res = OwnerPtr<Window>::CreateWithInstance( Window::staticDef );
     auto ptr = res.getPtr();
+
+
+    auto gr = OwnerPtr<Groupbox>::CreateWithInstance( Groupbox::staticDef );
+
+    gr.getPtr()->setText("group box!");
+    gr.getPtr()->rect.value = ScreenRectangle{{},30,30,200,200};
+
+    ptr->addWidget( std::move(gr) );
+
     auto txt = OwnerPtr<Textbox>::CreateWithInstance( Textbox::staticDef );
     auto txtWeak = txt.getWeak();
 
     txt.getPtr()->setText("...");
-    txt.getPtr()->rect = ScreenRectangle{{},0,0,100,20};
+    txt.getPtr()->rect.value = ScreenRectangle{{},0,0,100,20};
 
     ptr->addWidget( std::move(txt) );
     auto resWeak = res.getWeak();
@@ -82,7 +99,9 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 
     OwnerPtr<PropertyViewer> prop;
     prop.createInstance(PropertyViewer::staticDef);
-    prop.getPtr()->construct(aaa,txtWeak);
+    auto aaaWeak = aaa.getWeak();
+    prop.getPtr()->construct(aaaWeak,txtWeak);
+    std::cout << aaa.getId();
     app.windows.push_back(std::move(aaa));
 
     for(auto& it : app.windows)

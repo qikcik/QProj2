@@ -34,5 +34,5 @@ OwnerPtr<FieldType> getFieldType() {
 template<TObservableConcept T>
 OwnerPtr<FieldType> getFieldType() {
     using  element_type = typename T::element_type;
-    return OwnerPtr<ObservableField>::CreateWithInstance( std::move(getFieldType<element_type>()) );
+    return OwnerPtr<ObservableField>::CreateWithInstance( std::move(getFieldType<element_type>()), offsetof(T,listeners) );
 }
