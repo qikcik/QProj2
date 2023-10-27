@@ -3,10 +3,16 @@
 #include <data/window.hpp>
 #include <CommCtrl.h>
 
-GEN_QOBJ_STATIC_DEF(Groupbox,Widget,{
+BEGIN_GEN_QOBJ_STATIC_DEF(Groupbox,Widget)
+DynamicArray<Field>
+{
     GEN_INS_DEF_FIELD_ENTRY(Groupbox, text),
     GEN_INS_DEF_FIELD_ENTRY(Groupbox, widgets),
-})
+},
+DynamicArray<Method> {
+
+}
+END_GEN_QOBJ_STATIC_DEF()
 
 void Groupbox::setText(const std::string& in_string)
 {

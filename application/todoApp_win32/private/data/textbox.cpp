@@ -2,9 +2,15 @@
 #include "data/window.hpp"
 #include "fieldType/fields.hpp"
 
-GEN_QOBJ_STATIC_DEF(Textbox,Widget,{
+BEGIN_GEN_QOBJ_STATIC_DEF(Textbox,Widget)
+DynamicArray<Field>
+{
     GEN_INS_DEF_FIELD_ENTRY(Textbox, text),
-})
+},
+DynamicArray<Method> {
+
+}
+END_GEN_QOBJ_STATIC_DEF()
 
 Textbox::Textbox(const WeakPtr<QObjDef>& in_derivedObjDef) : Widget(in_derivedObjDef)
 {

@@ -7,11 +7,16 @@
 #include "data/textbox.hpp"
 #include "data/groupbox.hpp"
 
-
-GEN_QOBJ_STATIC_DEF(PropertyViewer,QObj,{
+BEGIN_GEN_QOBJ_STATIC_DEF(PropertyViewer,QObj)
+DynamicArray<Field>
+{
     GEN_INS_DEF_FIELD_ENTRY(PropertyViewer, window),
     GEN_INS_DEF_FIELD_ENTRY(PropertyViewer, obj),
-})
+},
+DynamicArray<Method> {
+
+}
+END_GEN_QOBJ_STATIC_DEF()
 
 #include <iostream>
 

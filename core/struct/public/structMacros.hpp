@@ -25,16 +25,16 @@ explicit NAME(const WeakPtr<QObjDef>& in_derivedObjDef) : BASE(in_derivedObjDef)
 private:
 
 
-#define GEN_QOBJ_STATIC_DEF(NAME,BASE,entries...) \
+#define BEGIN_GEN_QOBJ_STATIC_DEF(NAME,BASE) \
 const OwnerPtr<QObjDef> NAME::staticDef = std::move(OwnerPtr<QObjDef>::CreateWithInstanceWithId( \
         TARGET_NAME ".QObjDef." #NAME,                                      \
         #NAME, \
         sizeof(NAME),                             \
         BASE::staticDef.getWeak(),                                          \
         [](QIns* addr){ new (addr) NAME(NAME::staticDef); },                                 \
-        [](QIns* addr){ reinterpret_cast<NAME*>(addr)->~NAME(); },\
-        DynamicArray<Field> entries \
-));
+        [](QIns* addr){ reinterpret_cast<NAME*>(addr)->~NAME(); },
+
+#define END_GEN_QOBJ_STATIC_DEF() ));
 
 
 #define GEN_INS_DEF_FIELD_ENTRY(type,name) Field{#name, offsetof(type, name), std::move(getFieldType<typeof(type::name)>())}

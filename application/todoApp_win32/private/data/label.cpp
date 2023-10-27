@@ -1,9 +1,15 @@
 #include "data/label.hpp"
 #include "data/window.hpp"
 
-GEN_QOBJ_STATIC_DEF(Label,Widget,{
-    GEN_INS_DEF_FIELD_ENTRY(Label, text),
-})
+BEGIN_GEN_QOBJ_STATIC_DEF(Label,Widget)
+    DynamicArray<Field>
+    {
+        GEN_INS_DEF_FIELD_ENTRY(Label, text),
+    },
+    DynamicArray<Method> {
+
+    }
+END_GEN_QOBJ_STATIC_DEF()
 
 void Label::registerInWindow(Window* in_window)
 {

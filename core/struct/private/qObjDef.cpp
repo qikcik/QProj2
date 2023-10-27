@@ -11,6 +11,8 @@ const OwnerPtr<QObjDef> QObj::staticDef = std::move(OwnerPtr<QObjDef>::CreateWit
         [](QIns* addr){ reinterpret_cast<QObj*>(addr)->~QObj(); },
         DynamicArray<Field>{
                 GEN_INS_DEF_FIELD_ENTRY(QObj,selfPtr)
+        },
+        DynamicArray<Method>{
         }
 ));
 

@@ -3,9 +3,15 @@
 
 std::unordered_map<HWND, Window*> Window::registered_windows{};
 
-GEN_QOBJ_STATIC_DEF(Window, QObj, {
+BEGIN_GEN_QOBJ_STATIC_DEF(Window,QObj)
+DynamicArray<Field>
+{
     GEN_INS_DEF_FIELD_ENTRY(Window, widgets),
-})
+},
+DynamicArray<Method> {
+
+}
+END_GEN_QOBJ_STATIC_DEF()
 
 Window* currentRegistering = nullptr;
 

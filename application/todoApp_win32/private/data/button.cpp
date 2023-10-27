@@ -2,9 +2,17 @@
 #include "data/window.hpp"
 #include <CommCtrl.h>
 
-GEN_QOBJ_STATIC_DEF(Button,Widget,{
-    GEN_INS_DEF_FIELD_ENTRY(Button, text),
-})
+
+BEGIN_GEN_QOBJ_STATIC_DEF(Button,Widget)
+DynamicArray<Field>
+{
+        GEN_INS_DEF_FIELD_ENTRY(Button, text),
+},
+DynamicArray<Method> {
+
+}
+END_GEN_QOBJ_STATIC_DEF()
+
 
 void Button::registerInWindow(Window* in_window)
 {

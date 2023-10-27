@@ -1,9 +1,15 @@
 #include "data/widget.hpp"
 #include "fieldType/fields.hpp"
 
-GEN_QOBJ_STATIC_DEF(Widget,QObj,{
+BEGIN_GEN_QOBJ_STATIC_DEF(Widget,QObj)
+DynamicArray<Field>
+{
     GEN_INS_DEF_FIELD_ENTRY(Widget, rect),
-})
+},
+DynamicArray<Method> {
+
+}
+END_GEN_QOBJ_STATIC_DEF()
 
 void Widget::setRect(const ScreenRectangle& in_rect)
 {
